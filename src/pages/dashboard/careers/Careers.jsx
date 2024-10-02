@@ -27,7 +27,7 @@ const Careers = () => {
         </p>
         <Link
           className=' bg-sky-600 p-4 rounded-lg'
-          to='/dashboard/new/user'
+          to='/dashboard/careers/add'
         >
           click to add a career
         </Link>

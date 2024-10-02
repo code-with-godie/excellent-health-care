@@ -134,7 +134,7 @@ const Login = () => {
         <p className=' font-mono'>
           Don&apos;t have an account?
           <span
-            className=' underline text-golden cursor-pointer px-2 font-thin'
+            className=' underline  text- cursor-pointer px-2 font-thin'
             onClick={() => setIsLogedIn(false)}
           >
             sign up
@@ -180,7 +180,7 @@ const Login = () => {
         </Tooltip>
       </div>
       <div className=' flex items-center text-white flex-col'>
-        <p className=' text-golden text-sm italic'>
+        <p className=' text-sm italic'>
           {' '}
           &copy; All right reserved.excellent health care{' '}
           {new Date().getUTCFullYear()}{' '}

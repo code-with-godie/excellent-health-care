@@ -163,7 +163,7 @@ const Register = () => {
         <p className=' font-mono'>
           Already have an account?{' '}
           <span
-            className=' underline text-golden cursor-pointer px-2 font-thin'
+            className=' underline cursor-pointer px-2 font-thin'
             onClick={() => setIsLogedIn(true)}
           >
             sign in
@@ -209,7 +209,7 @@ const Register = () => {
         </Tooltip>
       </div>
       <div className=' flex items-center text-white flex-col'>
-        <p className=' text-golden text-sm italic'>
+        <p className='text-sm italic'>
           {' '}
           &copy; All right reserved.excellent health care{' '}
           {new Date().getUTCFullYear()}{' '}
