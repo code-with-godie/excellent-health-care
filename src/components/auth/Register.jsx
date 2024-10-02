@@ -209,7 +209,7 @@ const Register = () => {
         </Tooltip>
       </div>
       <div className=' flex items-center text-white flex-col'>
-        <p className='text-sm italic'>
+        <p className=' text-black text-sm italic'>
           {' '}
           &copy; All right reserved.excellent health care{' '}
           {new Date().getUTCFullYear()}{' '}

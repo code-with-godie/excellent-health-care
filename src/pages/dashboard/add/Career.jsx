@@ -10,8 +10,7 @@ import { useNavigate } from 'react-router-dom';
 const schema = z.object({
   title: z
     .string()
-    .min(2, { message: 'Title must be greater than 2 characters' })
-    .max(30, { message: 'Title must be less than 30 characters' }),
+    .min(2, { message: 'Title must be greater than 2 characters' }),
   description: z
     .array(z.string().min(1, { message: 'Description cannot be empty' }))
     .min(1, { message: 'At least one description is required' }), // Ensure at least one description
