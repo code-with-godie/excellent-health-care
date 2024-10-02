@@ -1,18 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Close, FacebookRounded, GitHub } from '@mui/icons-material';
-import { IconButton, TextField, Tooltip } from '@mui/material';
+import {
+  CircularProgress,
+  IconButton,
+  TextField,
+  Tooltip,
+} from '@mui/material';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { useAPPContext } from '../../context/AppContext';
 import url from '../../assets/google.png';
-
+import { postData } from '../../api/apiCalls';
 const variants = {
   initial: { y: -300, opacity: 0, transition: { duration: 0.5 } },
   animate: { y: 0, opacity: 1, transition: { duration: 0.5 } },
 };
 const Login = () => {
-  const { setShowModel, setIsLogedIn, isLogin } = useAPPContext();
+  const { setShowModel, setIsLogedIn, handleUser, isLogin, setToastMesage } =
+    useAPPContext();
   const schema = z.object({
     email: z.string().email('email is required'),
     password: z.string().min(8, 'password must be greater than 7 character'),
@@ -27,14 +33,17 @@ const Login = () => {
   // eslint-disable-next-line no-unused-vars
   const onSubmit = async data => {
     try {
-      const newUser = true;
+      const newUser = await postData('/users/login', data, null);
       if (newUser) {
-        setShowModel(true);
+        const { token, user } = newUser;
+        handleUser(user, token);
+
+        setShowModel(false);
       }
     } catch (error) {
       //show toast
-      console.log('errorsss', errors);
       console.log(error);
+      setToastMesage(error?.response?.data?.message);
     }
   };
   return (
@@ -118,7 +127,7 @@ const Login = () => {
           disabled={isSubmitting}
           className=' p-2 capitalize text-center cursor-pointer bg-blue-500 rounded-lg flex-1'
         >
-          {isSubmitting ? 'loading' : 'sign in'}
+          {isSubmitting ? <CircularProgress size={20} /> : 'sign in'}
         </button>
       </div>
       <div className=' flex items-center text-black flex-col text-sm'>

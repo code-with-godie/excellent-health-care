@@ -2,16 +2,15 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import { useAPPContext } from '../../context/AppContext';
 import { useEffect } from 'react';
 const ProtectedLayout = () => {
-  const { user, setShowModel } = useAPPContext();
+  const { user } = useAPPContext();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!user) {
-      setShowModel(true);
+    if (user?.role !== 'admin') {
       navigate('/');
       return;
     }
-  }, [user, navigate, setShowModel]);
+  }, [user, navigate]);
 
   return <> {user ? <Outlet /> : null} </>;
 };

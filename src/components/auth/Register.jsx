@@ -1,17 +1,24 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Close, FacebookRounded, GitHub } from '@mui/icons-material';
-import { IconButton, TextField, Tooltip } from '@mui/material';
+import {
+  CircularProgress,
+  IconButton,
+  TextField,
+  Tooltip,
+} from '@mui/material';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
 import { z } from 'zod';
 import { useAPPContext } from '../../context/AppContext';
+import { postData } from '../../api/apiCalls';
 import url from '../../assets/google.png';
 const variants = {
   initial: { y: -300, opacity: 0, transition: { duration: 0.5 } },
   animate: { y: 0, opacity: 1, transition: { duration: 0.5 } },
 };
 const Register = () => {
-  const { setShowModel, setIsLogedIn, isLogin } = useAPPContext();
+  const { setShowModel, setIsLogedIn, setToastMesage, isLogin } =
+    useAPPContext();
   const schema = z.object({
     username: z.string().min(2, 'usename is required'),
     email: z.string().email('email is required'),
@@ -27,13 +34,14 @@ const Register = () => {
   // eslint-disable-next-line no-unused-vars
   const onSubmit = async data => {
     try {
-      const newUser = true;
+      const newUser = await postData('/users/register', data, null);
       if (newUser) {
         setShowModel(true);
+        setIsLogedIn(true);
       }
     } catch (error) {
       //show toast
-      console.log('errorsss', errors);
+      setToastMesage(error?.response?.data?.message);
       console.log(error);
     }
   };
@@ -148,7 +156,7 @@ const Register = () => {
           disabled={isSubmitting}
           className=' p-2 capitalize text-center cursor-pointer bg-blue-500 rounded-lg flex-1'
         >
-          {isSubmitting ? 'loading' : 'sign up'}
+          {isSubmitting ? <CircularProgress size={20} /> : 'sign up'}
         </button>
       </div>
       <div className=' flex items-center text-black flex-col text-sm'>

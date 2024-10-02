@@ -7,7 +7,7 @@ const Banner = () => {
           {' '}
           WELCOME TO EXCELLENT HEALTH CAREER TRAINING COLLEGE
         </h1>
-        <p className='hidden sm:block text-base tracking-wide leading-6'>
+        <p className='hidden sm:block text-lg tracking-wide leading-6'>
           At{' '}
           <span className='text-blue-500 font-bold'>
             Excellent Health Career Training College,

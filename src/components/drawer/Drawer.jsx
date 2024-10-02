@@ -1,8 +1,19 @@
 import { FaTimes } from 'react-icons/fa';
 import { useAPPContext } from '../../context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import { Avatar } from '@mui/material';
 const Drawer = () => {
-  const { showDrawer: isOpen, setShowDrawer: onClose } = useAPPContext();
+  const {
+    showDrawer: isOpen,
+    setShowDrawer: onClose,
+    handleUser,
+    user,
+    setShowModel,
+  } = useAPPContext();
+  const handleLogin = () => {
+    setShowModel(true);
+    onClose();
+  };
   const navigate = useNavigate();
   const goto = to => {
     navigate(to);
@@ -31,6 +42,26 @@ const Drawer = () => {
           <FaTimes />
         </button>
       </div>
+      <div className=' flex gap-2 items-center p-2'>
+        {user ? (
+          <>
+            <Avatar
+              src={user?.avatar}
+              alt={user?.username}
+            />
+            <div className=' flex flex-col gap-1'>
+              <p className=' text-sm text-gray-400'>wellcome </p>
+              <p>{user?.username} </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className=' flex gap-1'>
+              <p>welcome Guest </p>
+            </div>
+          </>
+        )}
+      </div>
       <ul className='flex flex-col p-4 space-y-5'>
         <li
           onClick={() => goto('/')}
@@ -58,13 +89,23 @@ const Drawer = () => {
         </li>
       </ul>
       <div className='p-4 mt-auto'>
-        <button
-          className='w-full bg-blue-500 text-white px-4 py-2 rounded-md text-base font-medium 
+        {user ? (
+          <button
+            className='w-full bg-blue-500 text-white px-4 py-2 rounded-md text-base font-medium 
           cursor-pointer transform transition-transform duration-500 ease-in-out hover:bg-blue-600'
-          onClick={onClose}
-        >
-          Login
-        </button>
+            onClick={() => handleUser(null, null)}
+          >
+            Logout
+          </button>
+        ) : (
+          <button
+            className='w-full bg-blue-500 text-white px-4 py-2 rounded-md text-base font-medium 
+          cursor-pointer transform transition-transform duration-500 ease-in-out hover:bg-blue-600'
+            onClick={handleLogin}
+          >
+            Login
+          </button>
+        )}
       </div>
     </div>
   );

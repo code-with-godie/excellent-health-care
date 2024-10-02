@@ -1,0 +1,180 @@
+import { useState } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { postData } from '../../../api/apiCalls';
+import { useAPPContext } from '../../../context/AppContext';
+import { CircularProgress } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+
+const schema = z.object({
+  title: z
+    .string()
+    .min(2, { message: 'Title must be greater than 2 characters' })
+    .max(30, { message: 'Title must be less than 30 characters' }),
+  description: z
+    .array(z.string().min(1, { message: 'Description cannot be empty' }))
+    .min(1, { message: 'At least one description is required' }), // Ensure at least one description
+  role: z.string().optional(),
+  image: z.string().min(1, { message: 'An image is required' }), // Add image validation
+  normal: z.boolean().optional(), // Normal option
+});
+
+const Career = () => {
+  const [image, setImage] = useState(null);
+  const { token } = useAPPContext();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      description: [''], // Start with one empty description
+      image: '', // Initial empty string for the image
+      normal: false, // Default value for normal
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'description', // Updated to match the schema
+  });
+
+  const handleFile = e => {
+    const file = e.target.files[0];
+    const fileType = file.type.split('/')[0];
+    if (fileType !== 'image') {
+      alert('Select an image');
+      return;
+    }
+    const fileReader = new FileReader();
+    fileReader.readAsDataURL(file);
+    fileReader.onload = () => {
+      setImage(fileReader.result);
+      setValue('image', fileReader.result); // Set image value in form
+    };
+  };
+
+  const onSubmit = async data => {
+    const res = await postData('/programs', data, token);
+    if (res) {
+      navigate('/dashboard/careers');
+    }
+  };
+
+  return (
+    <section className='flex-col md:flex-row flex bg-bg_main text-white md:h-[90vh] gap-2 flex-1 overflow-auto'>
+      <article className='md:w-2/5 md:min-w-[200px] bg-bgSoft p-4 self-start rounded-lg'>
+        <div className='flex flex-col gap-2'>
+          <img
+            src={image || '/noprofile.png'}
+            alt='selected'
+            className='object-contain rounded-lg w-full max-h-full'
+          />
+        </div>
+      </article>
+      <article className='w-3/5 bg-bgSoft p-2 overflow-auto'>
+        <form
+          className='flex flex-col gap-2 w-full p-2'
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className='flex flex-col gap-1'>
+            <label
+              htmlFor='image'
+              className='p-4 rounded-lg text-lg bg-blue-500 cursor-pointer'
+            >
+              Select Career Image
+            </label>
+            <input
+              type='file'
+              id='image'
+              onChange={handleFile}
+              hidden
+            />
+            {errors.image && (
+              <p className='text-red-500'>{errors.image.message}</p>
+            )}
+          </div>
+          <div className='flex flex-col gap-1'>
+            <label htmlFor='title'>Career Title</label>
+            <input
+              type='text'
+              className='flex-1 bg-transparent p-2 border border-gray-300 rounded-lg outline-none'
+              placeholder='Career Title'
+              {...register('title')}
+            />
+            {errors.title && (
+              <p className='text-red-500'>{errors.title.message}</p>
+            )}
+          </div>
+          <div className='flex flex-col gap-1'>
+            <label htmlFor='normal'>Normal Option</label>
+            <select
+              {...register('normal', {
+                setValueAs: value => value === 'true', // Convert string to boolean
+              })}
+              className='flex-1 bg-[#151C2C] text-white border border-gray-300 rounded-lg outline-none p-2'
+            >
+              <option value='false'>image to the right</option>
+              <option value='true'>image to the left</option>
+            </select>
+            {errors.normal && (
+              <p className='text-red-500'>{errors.normal.message}</p>
+            )}
+          </div>
+          <h1 className='text-left text-lg p-4'>Career Descriptions</h1>
+          <button
+            type='button'
+            onClick={() => append('')} // Append an empty string for a new description
+            className='p-2 bg-blue-500 text-white rounded-lg'
+          >
+            Add Description
+          </button>
+          {fields.map((field, index) => (
+            <div
+              key={field.id}
+              className='flex flex-col gap-1'
+            >
+              <label htmlFor={`description-${index}`}>
+                Description {index + 1}
+              </label>
+              <input
+                type='text'
+                className='flex-1 bg-transparent p-2 border border-gray-300 rounded-lg outline-none'
+                placeholder='Description'
+                {...register(`description.${index}`)} // Register each description dynamically
+              />
+              {errors.description?.[index]?.message && (
+                <p className='text-red-500'>
+                  {errors.description[index].message}
+                </p>
+              )}
+              <button
+                type='button'
+                onClick={() => remove(index)}
+                className='text-red-500'
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+          <div className='flex flex-col gap-1'>
+            <button
+              className='flex-1 p-2 bg-blue-500 border-none cursor-pointer outline-none disabled:cursor-not-allowed'
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? <CircularProgress size={20} /> : 'Submit'}
+            </button>
+          </div>
+        </form>
+      </article>
+    </section>
+  );
+};
+
+export default Career;

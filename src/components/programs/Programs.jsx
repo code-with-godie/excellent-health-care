@@ -1,7 +1,16 @@
-import { programs } from '../../data/programs';
 import Program from './Program';
-
+import { useFetch } from '../../api/useFetch';
+import { useEffect, useState } from 'react';
+import ProgramSkeleton from '../skeleton/ProgramSkeleton';
 const Programs = () => {
+  const { loading, data, error } = useFetch('/programs');
+  const [programs, setPrograms] = useState([]);
+
+  useEffect(() => {
+    if (data) {
+      setPrograms(data?.programs);
+    }
+  }, [data]);
   return (
     <section
       id='careers'
@@ -10,15 +19,20 @@ const Programs = () => {
       <h1 className=' text-center capitalize text-4xl  text-blue-500 font-semibold font-serif md:text-6xl'>
         careers
       </h1>
-      <div className='flex flex-col gap-2'>
-        {programs.map((item, index) => (
-          <Program
-            key={item.id}
-            {...item}
-            index={index}
-          />
-        ))}
-      </div>
+      {loading ? (
+        <ProgramSkeleton />
+      ) : error ? (
+        <p>could not load careers</p>
+      ) : (
+        <div className='flex flex-col gap-2'>
+          {programs.map(item => (
+            <Program
+              key={item._id}
+              {...item}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 };

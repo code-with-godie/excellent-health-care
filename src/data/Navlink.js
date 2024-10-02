@@ -6,12 +6,6 @@ export const Navlinksdata = [
     same: false,
   },
   {
-    _id: 11,
-    title: 'Careers',
-    link: 'careers',
-    same: true,
-  },
-  {
     _id: 12,
     title: 'Why Us',
     link: '/why-us',

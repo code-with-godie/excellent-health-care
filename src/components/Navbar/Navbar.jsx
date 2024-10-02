@@ -1,16 +1,16 @@
 import { useAPPContext } from '../../context/AppContext';
 import { Navlinksdata } from '../../data/Navlink';
-import { Link } from 'react-scroll';
 import { NavLink } from 'react-router-dom';
 import Drawer from '../drawer/Drawer';
 
 import { FaBars } from 'react-icons/fa';
+import { Dashboard } from '@mui/icons-material';
 const Navbar = () => {
-  const { setShowModel, setShowDrawer } = useAPPContext();
+  const { setShowModel, setShowDrawer, user, handleUser } = useAPPContext();
   return (
     <div className='mx-auto w-full items-center flex justify-between  top-0 sticky my-shadow bg-white z-50 p-2 '>
       <div className='flex flex-col items-start'>
-        <span className='font-bold uppercase text-blue-500 block text-2xl md:text-2xl tracking-wide'>
+        <span className='font-bold uppercase text-blue-500 block text-2xl md:text-2xl tracking-wide logo'>
           Excellent Health
         </span>
         <span className='text-base md:text-lg text-gray-700 tracking-wide'>
@@ -20,12 +20,14 @@ const Navbar = () => {
 
       <div>
         <ul className='hidden md:flex items-center gap-10 '>
-          {Navlinksdata.map(({ _id, title, link, same }) => (
+          {Navlinksdata.map(({ _id, title, link }) => (
             <li
               className='font-normal text-black hover:text-blue-500 duration-300 tracking-wide cursor-pointer'
               key={_id}
             >
-              {same ? (
+              <NavLink to={link}>{title}</NavLink>
+
+              {/* {same ? (
                 <Link
                   activeClass='active'
                   to={link}
@@ -38,16 +40,36 @@ const Navbar = () => {
                 </Link>
               ) : (
                 <NavLink to={link}>{title}</NavLink>
-              )}
+              )} */}
             </li>
           ))}
-          <button
-            className='bg-blue-500 text-white px-4 py-2 border-none rounded-md text-base 
+
+          {user ? (
+            <button
+              className='bg-blue-500 text-white px-4 py-2 border-none rounded-md text-base 
               cursor-pointer transform scale-100 transition-transform duration-500 ease-in-out'
-            onClick={() => setShowModel(true)}
-          >
-            Login
-          </button>
+              onClick={() => handleUser(null, null)}
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              className='bg-blue-500 text-white px-4 py-2 border-none rounded-md text-base 
+              cursor-pointer transform scale-100 transition-transform duration-500 ease-in-out'
+              onClick={() => setShowModel(true)}
+            >
+              Login
+            </button>
+          )}
+          {user?.role === 'admin' && (
+            <NavLink
+              to='/dashboard'
+              className='bg-blue-500 text-white px-2 py-2 border-none rounded-md text-base 
+              cursor-pointer transform scale-100 transition-transform duration-500 ease-in-out'
+            >
+              <Dashboard />
+            </NavLink>
+          )}
         </ul>
         <button
           onClick={() => setShowDrawer(true)}
