@@ -1,4 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
+import { io } from 'socket.io-client';
 
 const InitialProps = {
   user: null,
@@ -8,10 +9,16 @@ const InitialProps = {
   token: null,
   toastMessage: '',
   successToast: '',
+  socket: null,
+  notifications: [],
+  showNotifications: false,
+  setShowNotifications: () => {},
+  setNotifications: () => {},
   setSuccessShowToast: () => {},
   setToastMesage: () => {},
   handleUser: () => {},
   setShowDrawer: () => {},
+  setToken: () => {},
   setIsLogedIn: () => {},
   setShowModel: () => {},
 };
@@ -20,8 +27,11 @@ const AppContext = createContext(InitialProps);
 const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(true);
   const [token, setToken] = useState(null);
+  const [socket, setSocket] = useState(null);
+  const [showNotifications, setShowNotifications] = useState(true);
   const [toastMessage, setToastMesage] = useState(null);
   const [successToast, setSuccessShowToast] = useState(false);
+  const [notifications, setNotifications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showDrawer, setShowDrawer] = useState(null);
   const [showModel, setShowModel] = useState(false);
@@ -45,11 +55,17 @@ const AppContextProvider = ({ children }) => {
     showDrawer,
     setShowDrawer,
     token,
+    setToken,
     toastMessage,
     setToastMesage,
     handleUser,
+    socket,
     successToast,
     setSuccessShowToast,
+    notifications,
+    setNotifications,
+    showNotifications,
+    setShowNotifications,
   };
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('excellent-health-user'));
@@ -60,6 +76,16 @@ const AppContextProvider = ({ children }) => {
     setToken(token);
     setLoading(false);
   }, []);
+  useEffect(() => {
+    const socket = io(import.meta.env.VITE_SOCKET_URL);
+    setSocket(socket);
+  }, [setToken]);
+  useEffect(() => {
+    socket?.on('GET_NOTIFICATIONS', notifications => {
+      setNotifications(notifications);
+      console.log('notifications', notifications);
+    });
+  }, [socket]);
   return (
     <AppContext.Provider value={{ ...share }}>
       {' '}

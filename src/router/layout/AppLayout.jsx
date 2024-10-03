@@ -9,6 +9,7 @@ import Toast from '../../components/models/Toast';
 import SuccessToast from '../../components/models/SuccessToast';
 const AppLayout = () => {
   const { showModel, successToast, isLogin, toastMessage } = useAPPContext();
+
   return (
     <section className='p-2 flex justify-center'>
       <article className=' w-full max-w-[1500px]'>

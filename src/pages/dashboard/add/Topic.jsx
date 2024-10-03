@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { postData } from '../../../api/apiCalls';
 import { useAPPContext } from '../../../context/AppContext';
 import { CircularProgress } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const schema = z.object({
   title: z
@@ -22,6 +22,9 @@ const schema = z.object({
 const Career = () => {
   const [image, setImage] = useState(null);
   const { token } = useAPPContext();
+  const location = useLocation();
+  const [career, setCareer] = useState(null);
+
   const navigate = useNavigate();
 
   const {
@@ -60,24 +63,38 @@ const Career = () => {
   };
 
   const onSubmit = async data => {
-    const res = await postData('/programs', data, token);
-    console.log('res', res);
+    const newData = { ...data, careerID: career?._id };
 
+    const res = await postData('/topics', newData, token);
     if (res) {
-      navigate(`/dashboard/careers/add/topic/${res?.post?._id}`, {
-        state: { career: res?.post },
-      });
+      navigate('/dashboard/careers');
     }
   };
 
+  useEffect(() => {
+    setCareer(location?.state?.career);
+  }, [location]);
   return (
     <section className='flex-col md:flex-row flex bg-bg_main text-white md:h-[90vh] gap-2 flex-1 overflow-auto'>
       <article className='md:w-2/5 md:min-w-[200px] bg-bgSoft p-4 self-start rounded-lg'>
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-2 p-2'>
+          {career && (
+            <div className=' w-full h-full  max-h-[250px] relative grid place-content-center mb-5'>
+              <h1 className=' text-white text-lg truncate'>
+                {' '}
+                {career?.title}{' '}
+              </h1>
+              <img
+                src={career?.image || '/noprofile.png'}
+                alt='selected'
+                className='object-contain rounded-lg w-full h-full  max-h-[200px] '
+              />
+            </div>
+          )}
           <img
             src={image || '/noprofile.png'}
             alt='selected'
-            className='object-contain rounded-lg w-full max-h-full'
+            className='object-contain rounded-lg w-full max-h-[250px]'
           />
         </div>
       </article>
@@ -91,7 +108,7 @@ const Career = () => {
               htmlFor='image'
               className='p-4 rounded-lg text-lg bg-blue-500 cursor-pointer'
             >
-              Select Career Image
+              Select Topic Image
             </label>
             <input
               type='file'
@@ -104,11 +121,11 @@ const Career = () => {
             )}
           </div>
           <div className='flex flex-col gap-1'>
-            <label htmlFor='title'>Career Title</label>
+            <label htmlFor='title'>Topic Title</label>
             <input
               type='text'
               className='flex-1 bg-transparent p-2 border border-gray-300 rounded-lg outline-none'
-              placeholder='Career Title'
+              placeholder='Topic Title'
               {...register('title')}
             />
             {errors.title && (
@@ -130,13 +147,13 @@ const Career = () => {
               <p className='text-red-500'>{errors.normal.message}</p>
             )}
           </div>
-          <h1 className='text-left text-lg p-4'>Career Descriptions</h1>
+          <h1 className='text-left text-lg p-4'>Topic Descriptions</h1>
           <button
             type='button'
             onClick={() => append('')} // Append an empty string for a new description
             className='p-2 bg-blue-500 text-white rounded-lg'
           >
-            Add Description
+            Add Topic Description
           </button>
           {fields.map((field, index) => (
             <div
@@ -171,7 +188,14 @@ const Career = () => {
               className='flex-1 p-2 bg-blue-500 border-none cursor-pointer outline-none disabled:cursor-not-allowed'
               disabled={isSubmitting}
             >
-              {isSubmitting ? <CircularProgress size={20} /> : 'Submit'}
+              {isSubmitting ? (
+                <CircularProgress
+                  color='success'
+                  size={20}
+                />
+              ) : (
+                'Submit'
+              )}
             </button>
           </div>
         </form>

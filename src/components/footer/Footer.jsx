@@ -24,7 +24,7 @@ const Footer = () => {
             </div>
             <div className=' flex items-center gap-2 text-lg font-semibold'>
               <Email />
-              <h1 className=' text-lg font-thin'>wairimumuchira2@gmail.com</h1>
+              <h1 className=' text-lg font-thin'>lucymuchira4@gmail.com</h1>
             </div>
             <div className=' flex items-center gap-2 text-lg font-semibold'>
               <LocationOn />

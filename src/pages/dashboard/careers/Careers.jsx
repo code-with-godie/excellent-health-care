@@ -1,5 +1,5 @@
 import { Avatar } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useFetch } from '../../../api/useFetch';
 import { FaPlus } from 'react-icons/fa';
@@ -7,12 +7,11 @@ import { FaPlus } from 'react-icons/fa';
 const Careers = () => {
   const [users, setUsers] = useState([]);
   const { data, loading, error } = useFetch('/programs');
-
+  const navigate = useNavigate();
   useEffect(() => {
     if (data) {
       setUsers(data?.programs);
     }
-    console.log(data);
   }, [data]);
   if (loading) {
     return <p>loading...</p>;
@@ -39,7 +38,7 @@ const Careers = () => {
       <div
         className={`flex flex-col gap-4 items-center justify-center h-[90vh] `}
       >
-        <p className=' text-gray-400 italic'>could not load users</p>
+        <p className=' text-gray-400 italic'>could not load careers</p>
         <Link
           className=' bg-sky-600 p-4 rounded-lg'
           to='/dashboard'
@@ -101,6 +100,16 @@ const Careers = () => {
                     >
                       view
                     </Link>
+                    <button
+                      onClick={() =>
+                        navigate(`/dashboard/careers/add/topic/${item?._id}`, {
+                          state: { career: item },
+                        })
+                      }
+                      className=' px-3 py-1 bg-cyan-600 rounded-md cursor-pointer'
+                    >
+                      add a topic
+                    </button>
                     <form>
                       <input
                         type='hidden'

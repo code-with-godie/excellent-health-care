@@ -60,7 +60,7 @@ body {
 }
 .my-grid2 {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
   gap: 1rem;
   padding: 0.5rem;
 }
@@ -68,5 +68,4 @@ body {
 .my-shadow {
   -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.19);
-  background-color: white;
 }

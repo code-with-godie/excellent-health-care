@@ -5,7 +5,7 @@ import Model from '../models/Model';
 import { CircularProgress } from '@mui/material';
 // eslint-disable-next-line react/prop-types
 const Enroll = ({ title, showModel, careerID }) => {
-  const { token, handleUser, setSuccessShowToast, setToastMesage } =
+  const { token, handleUser, socket, setSuccessShowToast, setToastMesage } =
     useAPPContext();
   const [loading, setLoading] = useState(false);
   const handleEnroll = async () => {
@@ -14,10 +14,24 @@ const Enroll = ({ title, showModel, careerID }) => {
       const res = await postData(`/users/enroll/${careerID}`, null, token);
       if (res) {
         const { user, message } = res;
-        setSuccessShowToast(message);
+        setSuccessShowToast(`${message} .check your email`);
         setToastMesage(message);
         handleUser(user, token);
-        console.log(message);
+        socket?.emit('ADD_NOTIFICATION', {
+          message: `${user?.username} ${message} in ${title} career`,
+          id: Date.now(),
+          read: false,
+          type: 'ENROLL',
+          careerID,
+        });
+        const email = {
+          message: `thank you for enrolling for ${title} with us`,
+          title: 'excellent health-care careers',
+          subject: 'Enrollment at excellent health care',
+          to: user?.email,
+        };
+        const Emailres = await postData(`/users/send-email`, email, token);
+        console.log(Emailres);
       }
     } catch (error) {
       setToastMesage('Failed to enroll. please try again later');

@@ -9,6 +9,7 @@ import AdminLayout from './AdminLayout';
 import Careers from '../pages/dashboard/careers/Careers';
 import Users from '../pages/dashboard/users/Users';
 import Career from '../pages/dashboard/add/Career';
+import Topic from '../pages/dashboard/add/Topic';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -41,6 +42,7 @@ export const router = createBrowserRouter([
           { path: '/dashboard/users', element: <Users /> },
           { path: '/dashboard/careers', element: <Careers /> },
           { path: '/dashboard/careers/add', element: <Career /> },
+          { path: '/dashboard/careers/add/topic/:id', element: <Topic /> },
         ],
       },
     ],

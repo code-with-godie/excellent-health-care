@@ -17,7 +17,7 @@ const variants = {
   animate: { y: 0, opacity: 1, transition: { duration: 0.5 } },
 };
 const Register = () => {
-  const { setShowModel, setIsLogedIn, setToastMesage, isLogin } =
+  const { setShowModel, setIsLogedIn, setToastMesage, isLogin, socket } =
     useAPPContext();
   const schema = z.object({
     username: z.string().min(2, 'usename is required'),
@@ -31,13 +31,20 @@ const Register = () => {
     formState: { errors, isSubmitting },
   } = useForm({ resolver: zodResolver(schema) });
 
-  // eslint-disable-next-line no-unused-vars
   const onSubmit = async data => {
     try {
       const newUser = await postData('/users/register', data, null);
       if (newUser) {
         setShowModel(true);
         setIsLogedIn(true);
+
+        socket?.emit('ADD_NOTIFICATION', {
+          message: `${newUser?.user?.username} sign up to the website`,
+          id: Date.now(),
+          userID: newUser?.user?._id,
+          read: false,
+          type: 'REGISTER',
+        });
       }
     } catch (error) {
       //show toast
