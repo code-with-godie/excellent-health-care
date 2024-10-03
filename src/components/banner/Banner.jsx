@@ -1,3 +1,4 @@
+import { Link } from 'react-scroll';
 import banner from '../../assets/banner.png';
 const Banner = () => {
   return (
@@ -18,12 +19,18 @@ const Banner = () => {
           career that makes a difference.
         </p>
         <div className='grid place-content-center '>
-          <button
+          <Link
+            to='career'
+            smooth={true}
+            duration={700}
+            offset={-100} // For example, offset for a fixed header
+            spy={true}
+            activeClass='active'
             className=' rounded-lg px-6 py-3 bg-blue-500 text-white border-none mt-5 md:mt-10 
              text-base md:text-lg font-medium hover:bg-blue-600 cursor-pointer transition-all duration-300 ease-in-out'
           >
             Enroll Now
-          </button>
+          </Link>
         </div>
       </div>
       <div className='w-1/3 flex justify-center items-center relative  p-2  min-w-[170px] '>

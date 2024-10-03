@@ -25,10 +25,10 @@ const InitialProps = {
 const AppContext = createContext(InitialProps);
 // eslint-disable-next-line react/prop-types
 const AppContextProvider = ({ children }) => {
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(false);
   const [token, setToken] = useState(null);
   const [socket, setSocket] = useState(null);
-  const [showNotifications, setShowNotifications] = useState(true);
+  const [showNotifications, setShowNotifications] = useState(false);
   const [toastMessage, setToastMesage] = useState(null);
   const [successToast, setSuccessShowToast] = useState(false);
   const [notifications, setNotifications] = useState([]);

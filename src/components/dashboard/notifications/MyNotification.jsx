@@ -17,9 +17,9 @@ const MyNotification = ({ id, message, read }) => {
   return (
     <div className=' flex flex-col'>
       <div className=' p-2 flex items-start gap-2 rounded-lg cursor-pointer '>
-        <div className=' flex flex-col'>
-          <p className=' '> {message} </p>
-          <div className=' flex justify-end'>
+        <div className=' flex flex-col  flex-1'>
+          <p className='flex-1'> {message} </p>
+          <div className=' flex justify-end flex-1'>
             {!read && (
               <button
                 onClick={readNotification}

@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { postData } from '../../../api/apiCalls';
+import { postData, updateData } from '../../../api/apiCalls';
 import { useAPPContext } from '../../../context/AppContext';
 import { CircularProgress } from '@mui/material';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -19,11 +19,12 @@ const schema = z.object({
   normal: z.boolean().optional(), // Normal option
 });
 
-const Career = () => {
+const Topic = () => {
   const [image, setImage] = useState(null);
   const { token } = useAPPContext();
   const location = useLocation();
-  const [career, setCareer] = useState(null);
+  const [career, setCareer] = useState(null); // Career info (passed via state)
+  const [topic, setTopic] = useState(null); // Topic info (for editing)
 
   const navigate = useNavigate();
 
@@ -65,29 +66,49 @@ const Career = () => {
   const onSubmit = async data => {
     const newData = { ...data, careerID: career?._id };
 
-    const res = await postData('/topics', newData, token);
+    let res;
+    if (topic) {
+      // Editing existing topic
+      res = await updateData(`/topics/${topic._id}`, newData, token);
+    } else {
+      // Adding a new topic
+      res = await postData('/topics', newData, token);
+    }
+
     if (res) {
       navigate('/dashboard/careers');
     }
   };
 
+  // When the component is mounted, load the career and topic data if in edit mode
   useEffect(() => {
-    setCareer(location?.state?.career);
+    setCareer(location?.state?.career); // Career info passed via navigation state
+    setTopic(location?.state?.topic); // Topic info passed via navigation state
   }, [location]);
+
+  // If a topic exists, set the form values for editing
+  useEffect(() => {
+    if (topic) {
+      setValue('title', topic.title);
+      setValue('description', topic.description || ['']);
+      setValue('normal', topic.normal || false);
+      setValue('image', topic.image || '');
+
+      setImage(topic.image); // Preload the image for editing
+    }
+  }, [topic, setValue]);
+
   return (
     <section className='flex-col md:flex-row flex bg-bg_main text-white md:h-[90vh] gap-2 flex-1 overflow-auto'>
       <article className='md:w-2/5 md:min-w-[200px] bg-bgSoft p-4 self-start rounded-lg'>
         <div className='flex flex-col gap-2 p-2'>
           {career && (
-            <div className=' w-full h-full  max-h-[250px] relative grid place-content-center mb-5'>
-              <h1 className=' text-white text-lg truncate'>
-                {' '}
-                {career?.title}{' '}
-              </h1>
+            <div className='w-full h-full max-h-[250px] relative grid place-content-center mb-5'>
+              <h1 className='text-white text-lg truncate'>{career?.title}</h1>
               <img
                 src={career?.image || '/noprofile.png'}
                 alt='selected'
-                className='object-contain rounded-lg w-full h-full  max-h-[200px] '
+                className='object-contain rounded-lg w-full h-full max-h-[200px]'
               />
             </div>
           )}
@@ -98,6 +119,7 @@ const Career = () => {
           />
         </div>
       </article>
+
       <article className='w-3/5 bg-bgSoft p-2 overflow-auto'>
         <form
           className='flex flex-col gap-2 w-full p-2'
@@ -120,6 +142,7 @@ const Career = () => {
               <p className='text-red-500'>{errors.image.message}</p>
             )}
           </div>
+
           <div className='flex flex-col gap-1'>
             <label htmlFor='title'>Topic Title</label>
             <input
@@ -132,25 +155,25 @@ const Career = () => {
               <p className='text-red-500'>{errors.title.message}</p>
             )}
           </div>
+
           <div className='flex flex-col gap-1'>
             <label htmlFor='normal'>Normal Option</label>
             <select
-              {...register('normal', {
-                setValueAs: value => value === 'true', // Convert string to boolean
-              })}
+              {...register('normal', { setValueAs: value => value === 'true' })}
               className='flex-1 bg-[#151C2C] text-white border border-gray-300 rounded-lg outline-none p-2'
             >
-              <option value='false'>image to the left</option>
-              <option value='true'>image to the right</option>
+              <option value='false'>Image to the left</option>
+              <option value='true'>Image to the right</option>
             </select>
             {errors.normal && (
               <p className='text-red-500'>{errors.normal.message}</p>
             )}
           </div>
+
           <h1 className='text-left text-lg p-4'>Topic Descriptions</h1>
           <button
             type='button'
-            onClick={() => append('')} // Append an empty string for a new description
+            onClick={() => append('')}
             className='p-2 bg-blue-500 text-white rounded-lg'
           >
             Add Topic Description
@@ -167,7 +190,7 @@ const Career = () => {
                 type='text'
                 className='flex-1 bg-transparent p-2 border border-gray-300 rounded-lg outline-none'
                 placeholder='Description'
-                {...register(`description.${index}`)} // Register each description dynamically
+                {...register(`description.${index}`)}
               />
               {errors.description?.[index]?.message && (
                 <p className='text-red-500'>
@@ -183,6 +206,7 @@ const Career = () => {
               </button>
             </div>
           ))}
+
           <div className='flex flex-col gap-1'>
             <button
               className='flex-1 p-2 bg-blue-500 border-none cursor-pointer outline-none disabled:cursor-not-allowed'
@@ -204,4 +228,4 @@ const Career = () => {
   );
 };
 
-export default Career;
+export default Topic;

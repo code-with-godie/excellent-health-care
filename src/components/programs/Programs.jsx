@@ -12,7 +12,7 @@ const Programs = () => {
     }
   }, [data]);
   return (
-    <section>
+    <section id='career'>
       <article
         id='careers'
         className=' flex flex-col gap-4'

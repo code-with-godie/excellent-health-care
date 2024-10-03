@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 const WhyUs = () => {
   return (
     <div className='w-full flex py-12 bg-gray-100'>
@@ -83,12 +84,13 @@ const WhyUs = () => {
           </div>
         </div>
         <div className='text-center mt-12'>
-          <button
+          <NavLink
+            to='/'
             className=' rounded-xl px-8 py-2 bg-blue-500 text-white border-none mt-10 
              text-lg font-medium hover:bg-blue-600 cursor-pointer z-[10000]'
           >
             Enroll Now
-          </button>
+          </NavLink>
         </div>
       </div>
     </div>

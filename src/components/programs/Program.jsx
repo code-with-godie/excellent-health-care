@@ -33,7 +33,7 @@ const Program = ({ title, image, description, normal, _id }) => {
           <div className='flex-1 my-shadow grid place-content-center'>
             <img
               src={image}
-              className=' max-w-full  max-h-[400px] object-covrer'
+              className=' max-w-full  max-h-[400px] object-cover'
               alt=''
             />
           </div>

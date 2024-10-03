@@ -65,25 +65,25 @@ const Drawer = () => {
       <ul className='flex flex-col p-4 space-y-5'>
         <li
           onClick={() => goto('/')}
-          className='text-gray-700 hover:text-blue-500 cursor-pointer'
+          className='text-black hover:text-blue-500 cursor-pointer'
         >
           Home
         </li>
         <li
           onClick={() => goto('/')}
-          className='text-gray-700 hover:text-blue-500 cursor-pointer'
+          className='text-black hover:text-blue-500 cursor-pointer'
         >
           Careers
         </li>
         <li
           onClick={() => goto('/why-us')}
-          className='text-gray-700 hover:text-blue-500 cursor-pointer'
+          className='text-black hover:text-blue-500 cursor-pointer'
         >
           Why Join Us
         </li>
         <li
           onClick={() => goto('/about')}
-          className='text-gray-700 hover:text-blue-500 cursor-pointer'
+          className='text-black hover:text-blue-500 cursor-pointer'
         >
           About Us
         </li>

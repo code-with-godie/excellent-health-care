@@ -2,7 +2,7 @@ import { Avatar } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useFetch } from '../../../api/useFetch';
-import { FaPlus } from 'react-icons/fa';
+import { FaEdit, FaPlus } from 'react-icons/fa';
 
 const Careers = () => {
   const [users, setUsers] = useState([]);
@@ -65,12 +65,21 @@ const Careers = () => {
         <div className=' flex-1 rounded-md w-full overflow-auto h-[55vh]'>
           <table className=' w-full overflow-auto'>
             <thead>
-              <tr className=' '>
-                <td className=' p-2 capitalize font-bold text-sm'>career</td>
+              <tr className=' text-lg capitalize  gap-2'>
+                <td className=' text-center p-2 capitalize font-bold text-sm '>
+                  career title
+                </td>
                 <td className=' p-2 capitalize font-bold text-sm'>
                   date created
                 </td>
-                <td className=' p-2 capitalize font-bold text-sm'>action</td>
+                <td className=' p-2 capitalize font-bold text-sm'>
+                  update details
+                </td>
+                <td className=' p-2 capitalize font-bold text-sm'>view</td>
+                <td className=' p-2 capitalize font-bold text-sm'>
+                  adda topic
+                </td>
+                <td className=' p-2 capitalize font-bold text-sm'>remove</td>
               </tr>
             </thead>
             <tbody>
@@ -93,13 +102,31 @@ const Careers = () => {
                     {' '}
                     {item?.createdAt?.toString().slice(2, 10)}{' '}
                   </td>
-                  <td className=' text-sm flex gap-2 items-start'>
-                    <Link
-                      href={`/dashboard/users/${item?._id}`}
-                      className=' px-3 py-1 bg-cyan-600 rounded-md cursor-pointer'
+                  <td className=' text-sm'>
+                    <button
+                      onClick={() =>
+                        navigate(`/dashboard/careers/add/`, {
+                          state: { career: item },
+                        })
+                      }
+                      className=' px-4 py-3 bg-cyan-600 rounded-md cursor-pointer flex-1 flex gap-1 items-center'
+                    >
+                      <FaEdit /> edit
+                    </button>
+                  </td>
+                  <td className=' text-sm '>
+                    <button
+                      onClick={() =>
+                        navigate(`/dashboard/careers/single/${item?._id}`, {
+                          state: { career: item },
+                        })
+                      }
+                      className=' px-3 py-2 bg-cyan-600 rounded-md cursor-pointer'
                     >
                       view
-                    </Link>
+                    </button>
+                  </td>
+                  <td>
                     <button
                       onClick={() =>
                         navigate(`/dashboard/careers/add/topic/${item?._id}`, {
@@ -110,6 +137,9 @@ const Careers = () => {
                     >
                       add a topic
                     </button>
+                  </td>
+                  <td>
+                    {' '}
                     <form>
                       <input
                         type='hidden'

@@ -47,7 +47,7 @@ const Footer = () => {
               <form className=' p-2 bg-white flex-1 rounded-l-lg'>
                 <input
                   type='text'
-                  className=' bg-transparent border-none  outline-none font-serif font-thin text-black flex-1'
+                  className=' bg-transparent border-none  outline-none font-serif font-thin text-black flex-1 min-w-0'
                   placeholder='subscribe'
                 />
               </form>

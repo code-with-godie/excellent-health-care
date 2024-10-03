@@ -10,6 +10,7 @@ import Careers from '../pages/dashboard/careers/Careers';
 import Users from '../pages/dashboard/users/Users';
 import Career from '../pages/dashboard/add/Career';
 import Topic from '../pages/dashboard/add/Topic';
+import SingleCareer from '../pages/dashboard/single/SingleCareer';
 export const router = createBrowserRouter([
   {
     path: '/',
@@ -42,6 +43,7 @@ export const router = createBrowserRouter([
           { path: '/dashboard/users', element: <Users /> },
           { path: '/dashboard/careers', element: <Careers /> },
           { path: '/dashboard/careers/add', element: <Career /> },
+          { path: '/dashboard/careers/single/:id', element: <SingleCareer /> },
           { path: '/dashboard/careers/add/topic/:id', element: <Topic /> },
         ],
       },
