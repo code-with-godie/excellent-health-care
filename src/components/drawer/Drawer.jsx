@@ -4,7 +4,7 @@ import { BsFillPeopleFill } from "react-icons/bs";
 import { useAPPContext } from "../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import { Navlinksdata } from "../../data/Navlink"; // Import your data
-
+import { GrAchievement } from "react-icons/gr";
 const Drawer = () => {
   const { showDrawer: isOpen, setShowDrawer: onClose } = useAPPContext();
   const navigate = useNavigate();
@@ -12,6 +12,7 @@ const Drawer = () => {
   // Create icon mapping
   const iconComponents = {
     FaHome: FaHome,
+    GrAchievement: GrAchievement,
     MdOutlineMedicalServices: MdOutlineMedicalServices,
     BsFillPeopleFill: BsFillPeopleFill,
   };
