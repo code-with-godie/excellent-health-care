@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 const WhyUs = () => {
   return (
     <div className='w-full flex py-12 bg-gray-100 mt-12'>
@@ -83,7 +83,7 @@ const WhyUs = () => {
             </p>
           </div>
         </div>
-        <div className='text-center mt-12'>
+        {/* <div className='text-center mt-12'>
           <NavLink
             to='/'
             className=' rounded-xl px-8 py-2 bg-blue-500 text-white border-none mt-10 
@@ -91,7 +91,7 @@ const WhyUs = () => {
           >
             Enroll Now
           </NavLink>
-        </div>
+        </div> */}
       </div>
     </div>
   );
