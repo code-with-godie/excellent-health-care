@@ -1,5 +1,4 @@
-import { createContext, useContext, useEffect, useState } from 'react';
-import { io } from 'socket.io-client';
+import { createContext, useContext, useEffect, useState } from "react";
 
 const InitialProps = {
   user: null,
@@ -7,8 +6,8 @@ const InitialProps = {
   isLogin: true,
   showDrawer: false,
   token: null,
-  toastMessage: '',
-  successToast: '',
+  toastMessage: "",
+  successToast: "",
   socket: null,
   notifications: [],
   showNotifications: false,
@@ -27,19 +26,21 @@ const AppContext = createContext(InitialProps);
 const AppContextProvider = ({ children }) => {
   const [user, setUser] = useState(false);
   const [token, setToken] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [socket, setSocket] = useState(null);
   const [showNotifications, setShowNotifications] = useState(false);
   const [toastMessage, setToastMesage] = useState(null);
   const [successToast, setSuccessShowToast] = useState(false);
   const [notifications, setNotifications] = useState([]);
+  // eslint-disable-next-line no-unused-vars
   const [loading, setLoading] = useState(true);
   const [showDrawer, setShowDrawer] = useState(null);
   const [showModel, setShowModel] = useState(false);
   const [isLogin, setIsLogedIn] = useState(true);
   const handleUser = (user, token) => {
-    localStorage.setItem('excellent-health-user', JSON.stringify(user));
+    localStorage.setItem("excellent-health-user", JSON.stringify(user));
     localStorage.setItem(
-      'excellent-health-access-token',
+      "excellent-health-access-token",
       JSON.stringify(token)
     );
     setUser(user);
@@ -68,29 +69,26 @@ const AppContextProvider = ({ children }) => {
     setShowNotifications,
   };
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem('excellent-health-user'));
+    const user = JSON.parse(localStorage.getItem("excellent-health-user"));
     const token = JSON.parse(
-      localStorage.getItem('excellent-health-access-token')
+      localStorage.getItem("excellent-health-access-token")
     );
     setUser(user);
     setToken(token);
     setLoading(false);
   }, []);
-  useEffect(() => {
-    const socket = io(import.meta.env.VITE_SOCKET_URL);
-    setSocket(socket);
-  }, [setToken]);
-  useEffect(() => {
-    socket?.on('GET_NOTIFICATIONS', notifications => {
-      setNotifications(notifications);
-      console.log('notifications', notifications);
-    });
-  }, [socket]);
+  // useEffect(() => {
+  //   const socket = io(import.meta.env.VITE_SOCKET_URL);
+  //   setSocket(socket);
+  // }, [setToken]);
+  // useEffect(() => {
+  //   socket?.on('GET_NOTIFICATIONS', notifications => {
+  //     setNotifications(notifications);
+  //     console.log('notifications', notifications);
+  //   });
+  // }, [socket]);
   return (
-    <AppContext.Provider value={{ ...share }}>
-      {' '}
-      {loading ? 'loading' : children}{' '}
-    </AppContext.Provider>
+    <AppContext.Provider value={{ ...share }}>{children}</AppContext.Provider>
   );
 };
 // eslint-disable-next-line react-refresh/only-export-components

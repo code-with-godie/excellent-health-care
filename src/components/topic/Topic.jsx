@@ -1,16 +1,13 @@
 /* eslint-disable react/prop-types */
-const Topic = ({ title, image, description, normal, _id }) => {
+const Topic = ({ title, image, description, index, id }) => {
   return (
-    <div
-      className=' p-4 bg-white w-full flex justify-center'
-      id={_id}
-    >
+    <div className=' p-4 bg-white w-full flex justify-center' id={id}>
       <div
         className={`flex w-full gap-4 flex-col items-center md:flex-row ${
-          normal && ' md:flex-row-reverse'
+          index % 2 === 0 && " md:flex-row-reverse"
         }`}
       >
-        <div className='flex-1 my-shadow grid place-content-center'>
+        <div className='flex-1 grid place-content-center'>
           <img
             src={image}
             className=' max-w-full  max-h-[400px] object-covrer'
@@ -23,12 +20,9 @@ const Topic = ({ title, image, description, normal, _id }) => {
           </h1>
           <div className='flex flex-col gap-4 p-2'>
             {description?.map((item, index) => (
-              <p
-                className=' text-black/90 font-thin'
-                key={index}
-              >
-                {' '}
-                {item}{' '}
+              <p className=' text-black/90 font-thin' key={index}>
+                {" "}
+                {item}{" "}
               </p>
             ))}
           </div>

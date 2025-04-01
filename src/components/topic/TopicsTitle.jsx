@@ -1,43 +1,28 @@
-import { useEffect, useState } from 'react';
-import { useFetch } from '../../api/useFetch';
-import { Skeleton } from '@mui/material';
-import { Link } from 'react-scroll';
+import { Link } from "react-scroll";
 
 /* eslint-disable react/prop-types */
-const TopicTitle = ({ careerID }) => {
-  const { loading, error, data } = useFetch(`/topics/${careerID}`);
-  const [topics, setTopic] = useState([]);
+const TopicTitle = ({ topics }) => {
+  const titles = topics.map((topic) => {
+    const { title, id } = topic;
 
-  useEffect(() => {
-    if (data) {
-      setTopic(data?.topics);
-    }
-  }, [data]);
+    return { title, id };
+  });
 
-  if (loading)
-    return (
-      <Skeleton
-        variant='rounded'
-        height={200}
-      />
-    );
-  if (error) return null;
   return (
     <ul className=' p-4  w-full list-disc'>
-      {topics?.map(item => (
+      {titles?.map((item) => (
         <li key={item._id}>
           <Link
-            to={item._id}
+            to={item.id}
             smooth={true}
             duration={700}
             offset={-100} // For example, offset for a fixed header
             spy={true}
             activeClass='active'
             className='cursor-pointer hover:text-blue-500'
-            key={item._id}
+            key={item.id}
           >
-            {' '}
-            {item?.title}{' '}
+            {item?.title}
           </Link>
         </li>
       ))}

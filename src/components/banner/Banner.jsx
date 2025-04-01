@@ -1,18 +1,19 @@
-import { Link } from 'react-scroll';
-import banner from '../../assets/banner.png';
+import { Link } from "react-scroll";
+import banner from "../../assets/banner.png";
+import { FaArrowDown } from "react-icons/fa6";
 const Banner = () => {
   return (
     <div className=' w-full flex  py-5 md:py-20 items-center gap-2 '>
       <div className=' w-full  md:w-2/3 flex flex-col px-5 gap-5 '>
         <h1 className=' text-lg sm:text-5xl text-start  font-bold text-gray-700'>
-          {' '}
+          {" "}
           WELCOME TO EXCELLENT HEALTH CAREER TRAINING COLLEGE
         </h1>
         <p className='hidden sm:block text-lg tracking-wide leading-6'>
-          At{' '}
+          At{" "}
           <span className='text-blue-500 font-bold'>
             Excellent Health Career Training College,
-          </span>{' '}
+          </span>{" "}
           we are committed to providing high-quality education and hands-on
           training to prepare students for successful careers in the healthcare
           industry.Join us today and take the first step towards a rewarding
@@ -25,11 +26,9 @@ const Banner = () => {
             duration={700}
             offset={-100} // For example, offset for a fixed header
             spy={true}
-            activeClass='active'
-            className=' rounded-lg px-6 py-3 bg-blue-500 text-white border-none mt-5 md:mt-10 
-             text-base md:text-lg font-medium hover:bg-blue-600 cursor-pointer transition-all duration-300 ease-in-out'
+            className=' p-4 shadow-lg rounded-full animate-bounce cursor-pointer'
           >
-            Enroll Now
+            <FaArrowDown color='#3B82F6' size={20} />
           </Link>
         </div>
       </div>
