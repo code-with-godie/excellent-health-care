@@ -2,9 +2,10 @@ import { useAPPContext } from "../../context/AppContext";
 import { Navlinksdata } from "../../data/Navlink";
 import { Link, NavLink } from "react-router-dom";
 import Drawer from "../drawer/Drawer";
-import { FaBars, FaHome, FaServicestack } from "react-icons/fa";
+import { FaBars, FaHome } from "react-icons/fa";
 import { BsFillPeopleFill } from "react-icons/bs";
 import { MdOutlineMedicalServices } from "react-icons/md";
+import { GrAchievement } from "react-icons/gr";
 
 const Navbar = () => {
   const { setShowDrawer } = useAPPContext();
@@ -12,7 +13,7 @@ const Navbar = () => {
   // Map icon names to actual components
   const iconComponents = {
     FaHome: FaHome,
-    FaServicestack: FaServicestack,
+    GrAchievement: GrAchievement,
     MdOutlineMedicalServices: MdOutlineMedicalServices,
     BsFillPeopleFill: BsFillPeopleFill,
   };

@@ -1,13 +1,13 @@
-import about from '../../assets/about.png';
+import about from "../../assets/about.png";
 const About = () => {
   return (
-    <div className='bg-white py-12'>
+    <div className='bg-white py-12 mt-12'>
       <div className='max-auto px-6'>
         <h2 className='text-3xl font-bold text-center text-blue-500 mb-8'>
           About Us
         </h2>
         <p className='text-center text-lg text-gray-700 mb-12'>
-          At{' '}
+          At{" "}
           <span className='font-semibold'>
             Excellent Health Careers Training College
           </span>
@@ -40,10 +40,10 @@ const About = () => {
               Our Vision
             </h3>
             <p className='text-gray-700'>
-              We envision a future where every graduate from{' '}
+              We envision a future where every graduate from{" "}
               <span className='font-semibold'>
                 Excellent Health Careers Training College
-              </span>{' '}
+              </span>{" "}
               is a leader in their field, contributing to the betterment of
               patient care and the healthcare system as a whole.
             </p>

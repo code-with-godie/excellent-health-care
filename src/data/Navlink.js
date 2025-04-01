@@ -18,7 +18,7 @@ export const Navlinksdata = [
     title: "Why Us",
     link: "/why-us",
     same: false,
-    icon: "MdOutlineMedicalServices",
+    icon: "GrAchievement",
   },
   {
     _id: 13,
